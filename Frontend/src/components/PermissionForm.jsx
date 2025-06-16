@@ -14,17 +14,32 @@ const PermissionForm = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
 
+  console.log(users);
+  
+
+  
   useEffect(() => {
     const fetchAllPermissions = async () => {
-      const { data } = await getPermissionsList();
-      setAllPermissions(data);
+      try {
+        const { data } = await getPermissionsList();
+        setAllPermissions(data);
+      } catch (err) {
+        console.error('Failed to fetch permissions:', err);
+        setStatus('Failed to fetch permissions');
+      }
     };
-    fetchAllPermissions();
 
     const fetchUsers = async () => {
-      const { data } = await getAllUsers();
-      setUsers(data);
+      try {
+        const { data } = await getAllUsers();
+        setUsers(data);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+        setStatus('Failed to fetch users');
+      }
     };
+
+    fetchAllPermissions();
     fetchUsers();
   }, []);
 
@@ -39,6 +54,7 @@ const PermissionForm = () => {
       setUserPermissions(data);
       setStatus('Fetched user permissions');
     } catch (err) {
+      console.error('Fetch user permissions error:', err);
       setStatus('Failed to fetch user permissions');
     }
     setLoading(false);
@@ -46,16 +62,25 @@ const PermissionForm = () => {
 
   const handleToggle = (perm) => {
     setUserPermissions((prev) =>
-      prev.includes(perm) ? prev.filter((p) => p !== perm) : [...prev, perm]
+      prev.includes(perm)
+        ? prev.filter((p) => p !== perm)
+        : [...prev, perm]
     );
   };
 
   const handleSave = async () => {
+    if (!userId) {
+      setStatus('Please select a user before saving.');
+      return;
+    }
+
     setLoading(true);
     try {
+      console.log('Saving permissions for:', userId);
       await updateUserPermissions(userId, userPermissions);
       setStatus('Permissions updated successfully!');
     } catch (err) {
+      console.error('Update error:', err);
       setStatus('Failed to update permissions');
     }
     setLoading(false);
@@ -63,9 +88,10 @@ const PermissionForm = () => {
 
   return (
     <div className="max-w-2xl mx-auto mt-12 px-6 py-8 bg-white shadow-xl rounded-2xl">
-      <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">Assign User Permissions</h2>
+      <h2 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+        Assign User Permissions
+      </h2>
 
-      {/* User Selection */}
       <div className="mb-6">
         <label className="block mb-2 font-medium text-gray-700">Select User</label>
         <select
@@ -82,7 +108,6 @@ const PermissionForm = () => {
         </select>
       </div>
 
-      {/* Permissions Grid */}
       <div className="mb-6">
         <h3 className="font-semibold mb-2 text-gray-700">Select Permissions</h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -100,7 +125,7 @@ const PermissionForm = () => {
         </div>
       </div>
 
-      {/* Save Button */}
+  
       <button
         onClick={handleSave}
         className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition duration-200"
@@ -109,7 +134,7 @@ const PermissionForm = () => {
         {loading ? 'Saving...' : 'Save Permissions'}
       </button>
 
-      {/* Status Message */}
+    
       {status && (
         <p className="mt-4 text-sm text-center text-gray-600">{status}</p>
       )}
@@ -118,3 +143,6 @@ const PermissionForm = () => {
 };
 
 export default PermissionForm;
+
+
+
