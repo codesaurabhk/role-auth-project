@@ -16,7 +16,7 @@ app.use('/api', require('./routes/user'));
 app.use('/api/auth', authRoutes);
 app.use('/api/permissions',permissionRoutes);
 
-mongoose.connect('mongodb+srv://saurabhkumar20843:saurabh@cluster0.h3iripa.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://adityanetario:863ZKSxWvS69udGM@cluster0.zsyxdso.mongodb.net/', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   serverSelectionTimeoutMS: 20000

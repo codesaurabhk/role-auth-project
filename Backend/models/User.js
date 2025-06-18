@@ -31,7 +31,4 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
-module.exports = mongoose.model('User', userSchema); 
-
-
-mongodb open kro
+module.exports = mongoose.model('user', userSchema); 
