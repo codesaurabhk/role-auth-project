@@ -1,4 +1,3 @@
-// controllers/permissionController.js
 const User = require('../models/User');
 
 exports.getPermissions = async (req, res) => {
@@ -21,6 +20,7 @@ exports.setPermissions = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 exports.updateUserPermissions = async (req, res) => {
   const { id } = req.params;
   const { permissions } = req.body;

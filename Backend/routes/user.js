@@ -19,8 +19,6 @@ router.get('/users', async (req, res) => {
   }
 });
 
-
-
 router.put('/:userId/permissions', updateUserPermissions);
 
 module.exports = router;
