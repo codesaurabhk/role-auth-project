@@ -14,8 +14,8 @@ const PermissionForm = () => {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState('');
 
-  console.log(users);
   
+console.log(userPermissions);
 
   
   useEffect(() => {
